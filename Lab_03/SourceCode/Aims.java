@@ -44,5 +44,10 @@ public class Aims {
         
         // Print total cost again
         System.out.println("Total cost after removal is: " + anOrder.totalCost());
+        
+        DigitalVideoDisc[] list = {dvd1, dvd2, dvd3};
+        anOrder.addDigitalVideoDisc(list);
+        
+        anOrder.addDigitalVideoDisc(dvd1, dvd2);
     }
 }
