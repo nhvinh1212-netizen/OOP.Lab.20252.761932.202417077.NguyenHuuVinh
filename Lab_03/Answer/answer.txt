@@ -1,0 +1,19 @@
+Question:
+Nếu bạn tạo một constructor để khởi tạo DVD theo title, và một constructor khác để khởi tạo theo category, thì Java có cho phép không?
+
+Answer:
+Không, Java không cho phép.
+
+Trong Java, việc nạp chồng constructor (constructor overloading) yêu cầu các constructor phải có danh sách tham số khác nhau (khác về số lượng hoặc kiểu dữ liệu).
+
+Nếu bạn viết:
+DigitalVideoDisc(String title)
+DigitalVideoDisc(String category)
+
+Thì cả hai constructor đều có cùng kiểu tham số là String, nên Java không thể phân biệt được chúng. Điều này sẽ gây lỗi khi biên dịch.
+
+Để khắc phục, bạn cần tạo các constructor có tham số khác nhau, ví dụ:
+DigitalVideoDisc(String title)
+DigitalVideoDisc(String title, String category)
+
+Khi đó Java có thể phân biệt được các constructor.
