@@ -1,0 +1,13 @@
+1. What class should implement the Comparable interface?
+Lớp abstract Media là nơi thích hợp nhất để triển khai interface Comparable. Khi Media implements Comparable, tất cả các lớp kế thừa như Book, CompactDisc, và DigitalVideoDisc đều sẽ tự động có khả năng so sánh. Điều này cho phép chúng ta so sánh các đối tượng thuộc mọi loại phương tiện một cách thống nhất.
+
+2. In those classes, how should you implement the compareTo() method to reflect the ordering that we want?
+Phương thức compareTo() cần được cài đặt dựa trên thứ tự ưu tiên của các thuộc tính dùng để so sánh. Ví dụ, nếu ưu tiên so sánh theo tiêu đề trước rồi mới đến giá, thì cần so sánh title trước. Nếu hai title giống nhau, tiếp tục so sánh giá. Kết quả trả về sẽ là số âm, 0 hoặc số dương tương ứng với việc đối tượng hiện tại nhỏ hơn, bằng hoặc lớn hơn đối tượng được so sánh.
+
+3. Can we have two ordering rules of the item (by title then cost and by cost then title) if we use this Comparable interface approach?
+Không thể định nghĩa nhiều cách sắp xếp khác nhau khi chỉ sử dụng Comparable, vì interface này chỉ cho phép một quy tắc so sánh duy nhất cho mỗi lớp. Nếu muốn có nhiều tiêu chí sắp xếp khác nhau, ta cần dùng Comparator. Với Comparator, có thể tạo nhiều lớp hoặc biểu thức khác nhau để định nghĩa các cách sắp xếp riêng biệt.
+
+4. Suppose the DVDs has a different ordering rule from the other media types, that is by title, then decreasing length, then cost. How would you modify your code to allow this?
+Có thể giữ Comparable trong lớp Media với quy tắc sắp xếp chung, sau đó override phương thức compareTo() trong lớp DigitalVideoDisc để áp dụng luật riêng cho DVD. Trong phương thức này, có thể kiểm tra và thực hiện so sánh theo title, sau đó đến length theo thứ tự giảm dần, và cuối cùng là cost.
+
+Ngoài ra, một cách tiếp cận tốt hơn là sử dụng các lớp Comparator riêng cho từng kiểu phương tiện. Cách này giúp tách biệt logic sắp xếp khỏi các lớp dữ liệu và tăng tính linh hoạt, ví dụ tạo một Comparator chung cho Media và một Comparator riêng dành cho DVD.
