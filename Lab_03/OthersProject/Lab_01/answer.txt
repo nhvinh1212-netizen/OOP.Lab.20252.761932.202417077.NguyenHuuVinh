@@ -1,0 +1,9 @@
+Section 6.1 – Questions
+
+Câu 1: Điều gì xảy ra nếu người dùng chọn “Cancel”?
+
+Nếu người dùng chọn "Cancel", chương trình vẫn hiển thị "NO". Nguyên nhân là do chương trình chỉ kiểm tra trường hợp người dùng chọn YES. Mọi lựa chọn khác (bao gồm NO và CANCEL) đều được xem là NO.
+
+Câu 2: Làm thế nào để tùy chỉnh các lựa chọn cho người dùng?
+
+Để tùy chỉnh các lựa chọn, ta có thể sử dụng phương thức JOptionPane.showOptionDialog() thay vì showConfirmDialog(). Phương thức này cho phép định nghĩa các nút theo ý muốn như "Yes/No" hoặc "I do/I don’t".
