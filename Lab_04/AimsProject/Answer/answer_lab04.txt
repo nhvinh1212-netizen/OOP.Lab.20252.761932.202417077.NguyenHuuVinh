@@ -1,0 +1,31 @@
+Tài liệu hỏi: "Lớp nào là tập hợp (aggregates) của các lớp khác? Hãy kiểm tra xem tất cả các constructor của lớp tổng thể (whole classes) đã khởi tạo các phần tử con (parts) của chúng chưa?"
+1. Phân tích quan hệ Aggregate (Toàn thể - Bộ phận) trong dự án AIMS:
+Trong thiết kế hướng đối tượng, một lớp được gọi là Whole (Toàn thể) và lớp kia là Part (Bộ phận) khi lớp Whole chứa một danh sách hoặc một tập hợp các đối tượng của lớp Part.
+Dựa vào cấu trúc hệ thống AIMS sau khi tái cấu trúc, chúng ta có các quan hệ sau:
+Lớp Store (Cửa hàng) là Toàn thể (Whole) $\rightarrow$ Tập hợp của các đối tượng Media (Part) (thông qua ArrayList<Media> itemsInStore).
+Lớp Cart (Giỏ hàng) là Toàn thể (Whole) $\rightarrow$ Tập hợp của các đối tượng Media (Part) (thông qua ArrayList<Media> itemsOrdered).
+Lớp CompactDisc (CD) là Toàn thể (Whole) $\rightarrow$ Tập hợp của các đối tượng Track (Part) (thông qua ArrayList<Track> tracks).
+
+2. Kiểm tra việc khởi tạo trong Constructor (Initialize for their parts):
+Quy tắc: Tất cả các lớp "Toàn thể" chứa danh sách (ArrayList) bắt buộc phải khởi tạo vùng nhớ cho ArrayList đó trong constructor (hoặc khởi tạo trực tiếp khi khai báo thuộc tính). Nếu không khởi tạo, danh sách sẽ bị null và khi bạn gọi hàm .add() hay .remove(), chương trình sẽ lập tức bị lỗi NullPointerException.
+
+
+
+Tài liệu đặt câu hỏi: "If the passing object is not an instance of Media, what happens?" (Nếu đối tượng truyền vào không phải là một thực thể của Media thì điều gì xảy ra?)
+
+Câu trả lời:
+
+Nếu chúng ta không kiểm tra kiểu dữ liệu trước khi ép kiểu (ép kiểu bừa bãi: Media other = (Media) o;), chương trình sẽ lập tức ném ra ngoại lệ ClassCastException tại thời điểm chạy (Runtime) và làm ứng dụng bị crash (bị sập).
+
+Do đó, trong đoạn code xử lý equals(), chúng ta bắt buộc phải sử dụng toán tử instanceof để kiểm tra trước. Nếu đối tượng truyền vào không phải là Media (hoặc là null), ta lập tức trả về false một cách an toàn mà không thực hiện ép kiểu.
+
+
+
+
+Question 1: What class should implement the Comparable interface?   Trả lời: Lớp Media nên triển khai interface Comparable<Media> vì đây là lớp cha tổng quát chứa các thuộc tính cốt lõi cần so sánh (title và cost) của mọi sản phẩm trong giỏ hàng.
+
+Question 2: In those classes, how should you implement the compareTo() method be to reflect the ordering that we want?   Trả lời: Trong hàm compareTo(Media other), chúng ta phải chọn cố định một quy tắc sắp xếp mặc định (ví dụ mặc định chọn theo title trước). Đoạn code sẽ giống như logic trong lớp MediaComparatorByTitleCost ở trên.
+
+Question 3: Can we have two ordering rules of the item (by title then cost and by cost then title) if we use this Comparable interface approach?   Trả lời: KHÔNG. Khi sử dụng Comparable, một lớp chỉ có thể định nghĩa duy nhất một phương thức compareTo(), nghĩa là chỉ có một quy tắc sắp xếp tự nhiên mặc định (Natural Ordering). Đó là lý do tại sao đối với bài toán có nhiều tùy chọn sắp xếp linh hoạt như thế này, sử dụng Comparator là giải pháp tối ưu và bắt buộc. 
+
+Question 4: Suppose the DVDs has a different ordering rule from the other media types... How would you modify your code to allow this?   Trả lời: Trong phương thức compare(Media m1, Media m2) của bộ lọc, ta dùng toán tử instanceof để kiểm tra xem hai đối tượng có phải là DigitalVideoDisc không. Nếu cả hai đều là DVD, ta áp dụng logic sắp xếp riêng: so sánh title $\rightarrow$ giảm dần length $\rightarrow$ cost. Nếu không phải, ta quay lại quy tắc mặc định của Media. 
