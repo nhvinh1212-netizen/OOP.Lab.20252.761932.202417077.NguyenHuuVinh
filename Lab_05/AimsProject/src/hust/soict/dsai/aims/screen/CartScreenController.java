@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import hust.soict.dsai.aims.exception.PlayerException;
 
 import javafx.scene.control.cell.PropertyValueFactory;
+import hust.soict.dsai.aims.exception.PlayerException;
 
 public class CartScreenController {
 
@@ -196,25 +197,53 @@ public class CartScreenController {
 
         if (media instanceof Playable) {
 
-        	try {
+            try {
 
-        	    ((Playable) media).play();
+            	try {
 
-        	} catch (PlayerException e) {
+            	    ((Playable) media).play();
 
-        	    Alert alert =
-        	            new Alert(Alert.AlertType.ERROR);
+            	} catch (PlayerException e) {
 
-        	    alert.setTitle("Player Error");
+            	    System.err.println(
+            	            e.getMessage()
+            	    );
 
-        	    alert.setHeaderText(null);
+            	    System.err.println(
+            	            e.toString()
+            	    );
 
-        	    alert.setContentText(
-        	            e.getMessage()
-        	    );
+            	    e.printStackTrace();
 
-        	    alert.showAndWait();
-        	}
+            	    Alert alert =
+            	            new Alert(Alert.AlertType.ERROR);
+
+            	    alert.setTitle("Player Error");
+
+            	    alert.setHeaderText(null);
+
+            	    alert.setContentText(
+            	            e.getMessage()
+            	    );
+
+            	    alert.showAndWait();
+            	}
+
+            } catch (Exception e) {
+
+                Alert alert =
+                        new Alert(Alert.AlertType.ERROR);
+
+                alert.setTitle("Player Error");
+
+                alert.setHeaderText(null);
+
+                alert.setContentText(
+                        e.getMessage()
+                );
+
+                alert.showAndWait();
+            }
         }
     }
 

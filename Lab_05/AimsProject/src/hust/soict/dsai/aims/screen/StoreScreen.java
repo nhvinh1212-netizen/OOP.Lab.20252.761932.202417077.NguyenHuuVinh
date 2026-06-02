@@ -1,4 +1,3 @@
-
 package hust.soict.dsai.aims.screen;
 
 import hust.soict.dsai.aims.cart.Cart;
@@ -7,26 +6,37 @@ import hust.soict.dsai.aims.media.CompactDisc;
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.store.Store;
-import javafx.embed.swing.JFXPanel;
+
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 
 import javax.swing.*;
 
 import java.awt.*;
-
 import java.util.ArrayList;
 
 public class StoreScreen extends JFrame {
-	
-	static {
 
-	    new JFXPanel();
-	}
+    // ==========================
+    // INIT JAVAFX
+    // ==========================
+
+    static {
+
+        new JFXPanel();
+    }
+
+    // ==========================
+    // ATTRIBUTES
+    // ==========================
 
     private Store store;
 
     private Cart cart;
+
+    // ==========================
+    // CONSTRUCTOR
+    // ==========================
 
     public StoreScreen(Store store, Cart cart) {
 
@@ -45,6 +55,8 @@ public class StoreScreen extends JFrame {
         setTitle("Store");
 
         setSize(1024, 768);
+
+        setLocationRelativeTo(null);
 
         setVisible(true);
 
@@ -81,17 +93,27 @@ public class StoreScreen extends JFrame {
         JMenu smUpdateStore =
                 new JMenu("Update Store");
 
-        smUpdateStore.add(new JMenuItem("Add Book"));
+        smUpdateStore.add(
+                new JMenuItem("Add Book")
+        );
 
-        smUpdateStore.add(new JMenuItem("Add CD"));
+        smUpdateStore.add(
+                new JMenuItem("Add CD")
+        );
 
-        smUpdateStore.add(new JMenuItem("Add DVD"));
+        smUpdateStore.add(
+                new JMenuItem("Add DVD")
+        );
 
         menu.add(smUpdateStore);
 
-        menu.add(new JMenuItem("View Store"));
+        menu.add(
+                new JMenuItem("View Store")
+        );
 
-        menu.add(new JMenuItem("View Cart"));
+        menu.add(
+                new JMenuItem("View Cart")
+        );
 
         JMenuBar menuBar = new JMenuBar();
 
@@ -132,21 +154,29 @@ public class StoreScreen extends JFrame {
                 new JButton("View cart");
 
         cartButton.setPreferredSize(
-                new Dimension(100, 50)
+                new Dimension(120, 50)
         );
 
         cartButton.setMaximumSize(
-                new Dimension(100, 50)
+                new Dimension(120, 50)
         );
 
+        // ==========================
         // OPEN CART SCREEN
+        // ==========================
 
         cartButton.addActionListener(e -> {
 
             Platform.runLater(() -> {
 
-                new CartScreen(cart);
+                try {
 
+                    new CartScreen(cart);
+
+                } catch (Exception ex) {
+
+                    ex.printStackTrace();
+                }
             });
         });
 
@@ -186,15 +216,10 @@ public class StoreScreen extends JFrame {
         ArrayList<Media> mediaInStore =
                 store.getItemsInStore();
 
-        for (int i = 0;
-             i < mediaInStore.size();
-             i++) {
+        for (Media media : mediaInStore) {
 
             MediaStore cell =
-                    new MediaStore(
-                            mediaInStore.get(i),
-                            cart
-                    );
+                    new MediaStore(media, cart);
 
             center.add(cell);
         }
@@ -207,11 +232,12 @@ public class StoreScreen extends JFrame {
     // ==========================
 
     public static void main(String[] args) {
-    	new JFXPanel();
 
         Store store = new Store();
 
         Cart cart = new Cart();
+
+        // DVD
 
         store.addMedia(
                 new DigitalVideoDisc(
@@ -224,6 +250,8 @@ public class StoreScreen extends JFrame {
                 )
         );
 
+        // BOOK
+
         store.addMedia(
                 new Book(
                         2,
@@ -232,6 +260,8 @@ public class StoreScreen extends JFrame {
                         15.0f
                 )
         );
+
+        // CD
 
         store.addMedia(
                 new CompactDisc(
@@ -245,6 +275,8 @@ public class StoreScreen extends JFrame {
                         new ArrayList<>()
                 )
         );
+
+        // OPEN STORE SCREEN
 
         new StoreScreen(store, cart);
     }
