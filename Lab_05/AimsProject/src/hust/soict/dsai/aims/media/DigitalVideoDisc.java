@@ -1,25 +1,34 @@
 package hust.soict.dsai.aims.media;
+
 import hust.soict.dsai.aims.exception.PlayerException;
 
-public class DigitalVideoDisc extends Disc implements Playable {
-    
-    // XÓA BỎ thuộc tính director và length ở đây vì Disc đã có
+public class DigitalVideoDisc
+        extends Media
+        implements Playable {
 
-    public DigitalVideoDisc (int id, String title, String category, float cost, String director, int length) {
-        // Hãy chú ý thứ tự tham số truyền vào super() phải khớp với lớp Disc của bạn
-        super(id, title, category, cost, director, length);
+    private String director;
+    private int length;
+
+    public DigitalVideoDisc(
+            int id,
+            String title,
+            String category,
+            float cost,
+            String director,
+            int length
+    ) {
+
+        super(id, title, category, cost);
+
+        this.director = director;
+        this.length = length;
     }
-    
-    // Sửa lại các hàm lấy dữ liệu từ lớp cha Disc bằng cách gọi hàm getter của cha
-    @Override
-    public String toString() {
-        return "DVD - " + getTitle() + " - " + getCategory() + " - " + getDirector() + " - " + getLength() + ": " + getCost() + " $";
+
+    public int getLength() {
+
+        return length;
     }
-    
-    public boolean isMatch(String title) {
-        return getTitle().toLowerCase().contains(title.toLowerCase());
-    }
-    
+
     @Override
     public void play() throws PlayerException {
 
@@ -30,7 +39,10 @@ public class DigitalVideoDisc extends Disc implements Playable {
             );
         }
 
-        System.out.println("Playing DVD: " + this.getTitle());
-        System.out.println("DVD length: " + this.getLength());
+        System.out.println("Playing DVD: "
+                + this.getTitle());
+
+        System.out.println("DVD length: "
+                + this.getLength());
     }
 }

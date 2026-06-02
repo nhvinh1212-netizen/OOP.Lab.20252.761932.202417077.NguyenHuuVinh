@@ -3,6 +3,7 @@ package hust.soict.dsai.aims.screen;
 import hust.soict.dsai.aims.cart.Cart;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
+import hust.soict.dsai.aims.exception.PlayerException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,7 +66,37 @@ public class MediaStore extends JPanel {
 
             btnPlay.addActionListener(e -> {
 
-                ((Playable) media).play();
+                try {
+
+                	try {
+
+                	    ((Playable) media).play();
+
+                	} catch (PlayerException ex) {
+
+                	    System.err.println(ex.getMessage());
+
+                	    System.err.println(ex.toString());
+
+                	    ex.printStackTrace();
+
+                	    JOptionPane.showMessageDialog(
+                	            this,
+                	            ex.getMessage(),
+                	            "Player Error",
+                	            JOptionPane.ERROR_MESSAGE
+                	    );
+                	}
+
+                } catch (Exception ex) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            ex.getMessage(),
+                            "Player Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
             });
 
             container.add(btnPlay);
